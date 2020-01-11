@@ -64,6 +64,7 @@
             e.preventDefault();
             let divElement = $('#inputContainer').clone();
             $('.colorContainer').append(divElement);
+            $('.form-control').last().val('').focus();
         })
     });
 </script>

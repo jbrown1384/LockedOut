@@ -37,9 +37,6 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        $tiles = [];
-        $solution = [];
-
         if (request('tiles')) {
             $tileEntries = request('tiles');
             $this->processEntries($tileEntries);
@@ -138,58 +135,60 @@ class HomeController extends Controller
             $this->options[] = $tempOptions;
         }
 
-        $i = 0;
-        // cycle through each of the possible start blue patterns
-        foreach ($this->thread as $thread) {
-            $this->processNextConnection($i, $this->options[$i]);
-            $i++;
+        // cycle through each of the possible start color patterns
+        for ($index = 0; $index < count($this->thread); $index++) {
+            $this->processNextConnection($index, $this->options[$index]);
         }
 
         return $this->compileSolution();
     }
 
     /**
-     * this cycles through all of the current options and find the next possible connection
+     * this recursive function loops through all the current options and find the next possible connection
      * until the end marker color has been found
      *
      * @param integer $index
      * @param array $options
      * @return void
      */
-    private function processNextConnection(int $index, array $options = [])
+    private function processNextConnection(int $index, array $options = []): bool
     {
         // get the last color in the thread that needs to be matched
-        if (!isset($this->thread[$index][(count($this->thread[$index]) - 1)])) {
+        // needle holds the last secondary color we are connecting to
+        if (!isset($this->thread[$index]) || !$needleContainer = end($this->thread[$index])) {
             return false;
         }
-        $needle = $this->thread[$index][(count($this->thread[$index]) - 1)];
 
-        if (is_array($needle) && !empty($needle)) {
-            $needle = strtolower($needle[(count($needle)) - 1]);
+        if (is_array($needleContainer) && count($needleContainer) == 2) {
+            $needle = strtolower(end($needleContainer));
         }
 
+        // Check if the needle has reached the end marker and go to the next starting marker tile
         if (strtolower($needle) === $this->endMarker) {
             return true;
         }
 
-        if (isset($options[$needle]) && !empty($options[$needle])) {
-            $startCount = count($options[$needle]);
-            for ($i = 0; $i < $startCount; $i++) {
-                if (!isset($options[$needle][$i]) || empty($options[$needle][$i])) {
-                    $removeDeadend = count($this->thread[$index]) - 1;
-                    unset($this->thread[$index][$removeDeadend]);
-                    // unset($needle);
-                } else {
-                    $this->thread[$index][] = [$needle, $options[$needle][$i]];
-                    unset($options[$needle][$i]);
-                }
+        // check that there are still options for the color that is needed
+        // if not, rollback to the previous choice
+        if (!isset($options[$needle]) || empty($options[$needle])) {
+            unset($this->thread[$index][count($this->thread[$index]) - 1]);
+            return false;
+        }
 
-                if ($this->processNextConnection($index, $options)) {
-                    return true;
-                }
+        // check how many available options that we have for the given color
+        for ($i = 0; $i < count($options[$needle]); $i++) {
+            if (!isset($options[$needle][$i]) || empty($options[$needle][$i])) {
+                // unset($this->thread[$index][count($this->thread[$index]) - 1]);
+            } else {
+                $this->thread[$index][] = [$needle, $options[$needle][$i]];
+                // unset($options[$needle][$i]);
+            }
+
+            if ($this->processNextConnection($index, $options)) {
+                return true;
             }
         }
-        unset($needle);
+
         return false;
     }
 
