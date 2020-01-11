@@ -1,7 +1,7 @@
 <p align="center">LockedOut</p>
 
 <p align="center">
-<a href="http://18.222.232.116/?tiles=10" alt="Build Status">Working Instance</a>
+<a target="_blank" href="http://18.222.232.116/?tiles=10" alt="Build Status">Working Instance</a>
 </p>
 
 ## Stack
