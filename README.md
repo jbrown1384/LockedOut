@@ -20,9 +20,15 @@
 ## Deployment
 
 - Checkout this repo into the instance root directory
-- run sudo ./scripts/deploy.sh 
-    - this will run composer, npm, and will rebuild app.js/app.css
+- composer and nodejs/npm can be installed individually or you can run the deploy script which will auto install and create the dependancies 
+    - To run the deploy script: sudo bash ./public/scripts/deploy.sh 
+    - this will install and run composer and npm
 
-## Security Vulnerabilities
+## Application
+# Auto-generating the tiles
+- On page load, tiles will be randomly generated and a possible solution will attempt to be found. 
+- The default number of tiles is 3 but can be changed through the URL get parameter
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Manual Entering Tiles
+- The "Manual Input Toggle" allows the user to enter individual tiles. Each row should contain both colors eg(blue, green). The add row will allow another tile to be generated and added. 
+- Upon submitting the add tile, the tiles will be displayed on the previous screen along with a possible solution. 
