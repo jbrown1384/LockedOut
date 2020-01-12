@@ -19,9 +19,6 @@ echo "Installing NPM"
 sudo apt-get install npm
 
 echo "Installing all NPM packages"
-sudo npm install
-
-echo "Generating App.js/App.css"
-sudo npm run dev
+sudo npm install --global cross-env
 
 echo "Deployment script complete"
