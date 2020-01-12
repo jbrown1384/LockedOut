@@ -8,9 +8,14 @@
 
 - AWS t.2 micro
 - Ubuntu 18.04 (https://help.ubuntu.com/lts/installation-guide/)
-- nginx version: nginx/1.14.0 (https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
-- PHP 7.4.1 
-- Laravel Framework 6.10.1
+- nginx v1.14.0 (https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
+- PHP v7.4.1 
+- Laravel Framework v6.10.1
+- composer v1.9.1
+- node v8.10.0
+    - npm v3.5.2
+- git v2.17.1
+
 
 ## Deployment
 
