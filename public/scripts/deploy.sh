@@ -12,11 +12,11 @@ echo "Installing composer packages"
 sudo composer install
 
 echo "Installing NodeJS version"
-sudo apt-get install -y nodejs
+sudo apt-get install nodejs
 echo "NodeJS installed"
 
 echo "Installing NPM"
-sudo apt-get install npm -y
+sudo apt-get install npm
 
 echo "Installing all NPM packages"
 sudo npm install
