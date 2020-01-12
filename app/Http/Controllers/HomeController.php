@@ -132,6 +132,7 @@ class HomeController extends Controller
 
             // remove the selected option from the current list of future options
             unset($tempOptions[$this->startMarker][$i]);
+            $tempOptions[$this->startMarker] = array_values($tempOptions[$this->startMarker]);
             $this->options[] = $tempOptions;
         }
 
@@ -149,7 +150,7 @@ class HomeController extends Controller
      *
      * @param integer $index
      * @param array $options
-     * @return void
+     * @return bool
      */
     private function processNextConnection(int $index, array $options = []): bool
     {
@@ -164,28 +165,32 @@ class HomeController extends Controller
         }
 
         // Check if the needle has reached the end marker and go to the next starting marker tile
-        if (strtolower($needle) === $this->endMarker) {
+        if (count($this->thread[$index]) > 1 && strtolower($needle) === $this->endMarker) {
             return true;
         }
 
         // check that there are still options for the color that is needed
         // if not, rollback to the previous choice
-        if (!isset($options[$needle]) || empty($options[$needle])) {
+        if (empty($options) || !isset($options[$needle]) || empty($options[$needle])) {
+            $option = $this->thread[$index][count($this->thread[$index]) - 1];
             unset($this->thread[$index][count($this->thread[$index]) - 1]);
-            return false;
+            $this->thread[$index] = array_values($this->thread[$index]);
+
+            $options[] = $option;
+            $this->processNextConnection($index, $options);
         }
 
         // check how many available options that we have for the given color
-        for ($i = 0; $i < count($options[$needle]); $i++) {
-            if (!isset($options[$needle][$i]) || empty($options[$needle][$i])) {
-                // unset($this->thread[$index][count($this->thread[$index]) - 1]);
-            } else {
+        if (isset($options[$needle])) {
+            for ($i = 0; $i < count($options[$needle]); $i++) {
                 $this->thread[$index][] = [$needle, $options[$needle][$i]];
-                // unset($options[$needle][$i]);
-            }
+                unset($options[$needle][$i]);
+                $options[$needle] = array_values($options[$needle]);
+                if ($this->processNextConnection($index, $options)) {
+                    return true;
+                }
 
-            if ($this->processNextConnection($index, $options)) {
-                return true;
+                return false;
             }
         }
 
