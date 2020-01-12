@@ -25,10 +25,10 @@
     - this will install and run composer and npm
 
 ## Application
-# Auto-generating the tiles
+### Auto-generating the tiles
 - On page load, tiles will be randomly generated and a possible solution will attempt to be found. 
 - The default number of tiles is 3 but can be changed through the URL get parameter
 
-# Manual Entering Tiles
+### Manual Entering Tiles
 - The "Manual Input Toggle" allows the user to enter individual tiles. Each row should contain both colors eg(blue, green). The add row will allow another tile to be generated and added. 
 - Upon submitting the add tile, the tiles will be displayed on the previous screen along with a possible solution. 
