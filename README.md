@@ -19,7 +19,7 @@
 
 ## Deployment
 - Checkout this repo into the instance root directory
-- composer and nodejs/npm can be installed individually or you can run the deploy script which will auto install and create the dependancies 
+- composer and nodejs/npm can be installed individually or you can run the deploy script which will auto install and create the dependencies 
     - To run the deploy script: sudo bash ./public/scripts/deploy.sh 
     - this will install and run composer and npm
 
