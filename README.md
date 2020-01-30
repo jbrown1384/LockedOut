@@ -1,9 +1,5 @@
 <p align="center">LockedOut</p>
 
-<p align="center">
-<a target="_blank" href="http://18.222.232.116/?tiles=5" alt="Build Status">Working Instance</a>
-</p>
-
 ## Stack
 
 - AWS t.2 micro
